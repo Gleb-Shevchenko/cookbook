@@ -1,4 +1,4 @@
-package mate.academy.springboot.datajpa.dto.mapper;
+package pet.cookbook.dto.mapper;
 
 public interface RequestDtoMapper<D, T> {
     T mapToModel(D dto);
