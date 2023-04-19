@@ -1,16 +1,15 @@
 package pet.cookbook.dto.response;
 
-import java.time.LocalDate;
-import java.util.List;
+import java.time.LocalDateTime;
 import lombok.Data;
-import pet.cookbook.model.Recipe;
 
 @Data
 public class RecipeResponseDto {
     private Long id;
     private Long parentId;
-    private LocalDate publicationDate;
+    private Long cookbookId;
+    private String cookbookName;
+    private LocalDateTime publicationDate;
     private String name;
     private String description;
-    private Long childRecipeId;
 }

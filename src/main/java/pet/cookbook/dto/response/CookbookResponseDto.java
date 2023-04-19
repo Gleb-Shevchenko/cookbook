@@ -1,8 +1,8 @@
 package pet.cookbook.dto.response;
 
+import java.util.List;
 import lombok.Data;
 import pet.cookbook.model.Recipe;
-import java.util.List;
 
 @Data
 public class CookbookResponseDto {

@@ -1,12 +1,8 @@
 package pet.cookbook.model;
 
-import lombok.Data;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
-
+import java.time.LocalDateTime;
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.util.List;
-
+import lombok.Data;
 
 @Data
 @Entity
@@ -16,8 +12,10 @@ public class Recipe {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long parentRecipeId;
-    private LocalDate publicationDate;
+    @ManyToOne
+    @JoinColumn(name = "cookbook_id")
+    private Cookbook cookbook;
+    private LocalDateTime publicationDate;
     private String name;
     private String description;
-    private Long childRecipeId;
 }

@@ -1,7 +1,10 @@
 package pet.cookbook.service.impl;
 
+import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import pet.cookbook.model.Recipe;
 import pet.cookbook.repository.RecipeRepository;
@@ -25,5 +28,16 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public void deleteById(Long id) {
         recipeRepository.deleteById(id);
+    }
+
+    @Override
+    public void findVersionsOfRecipe(PageRequest pageRequest, List<Recipe> recipes, Recipe recipe) {
+        recipes.add(recipe);
+        Long parentId = recipe.getParentRecipeId();
+        if (parentId != null) {
+            Recipe parentRecipe = recipeRepository.findById(parentId)
+                    .orElseThrow(() -> new NoSuchElementException("Can't find recipe by id: " + parentId));
+            findVersionsOfRecipe(pageRequest, recipes, parentRecipe);
+        }
     }
 }

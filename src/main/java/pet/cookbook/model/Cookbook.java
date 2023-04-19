@@ -1,11 +1,9 @@
 package pet.cookbook.model;
 
-import lombok.Data;
-
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import javax.persistence.*;
+import lombok.Data;
 
 @Data
 @Entity
@@ -15,10 +13,7 @@ public class Cookbook {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @OneToMany
-    @JoinTable(name = "cookbooks_recipes",
-            joinColumns = @JoinColumn(name = "cookbook_id"),
-            inverseJoinColumns = @JoinColumn(name = "recipe_id"))
+    @OneToMany(mappedBy = "cookbook")
     private List<Recipe> recipes;
 
     public List<Recipe> getAllRecipes() {

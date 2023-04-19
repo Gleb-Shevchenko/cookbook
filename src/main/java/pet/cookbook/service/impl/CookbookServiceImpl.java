@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import pet.cookbook.model.Cookbook;
 import pet.cookbook.model.Recipe;
@@ -31,7 +32,7 @@ public class CookbookServiceImpl implements CookbookService {
     }
 
     @Override
-    public List<Recipe> findAllRecipes(Long id) {
+    public List<Recipe> findAllRecipes(PageRequest pageRequest, Long id) {
         Cookbook cookbook = cookbookRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Can't find cookbook by id: " + id));
         return cookbook.getAllRecipes();
