@@ -3,6 +3,7 @@ package pet.cookbook.model;
 import java.time.LocalDateTime;
 import javax.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Data
 @Entity
@@ -11,10 +12,13 @@ public class Recipe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long parentRecipeId;
+    @ManyToOne
+    @JoinColumn(name = "parent_recipe_id")
+    private Recipe parentRecipe;
     @ManyToOne
     @JoinColumn(name = "cookbook_id")
     private Cookbook cookbook;
+    @CreationTimestamp
     private LocalDateTime publicationDate;
     private String name;
     private String description;

@@ -7,5 +7,5 @@ public class RecipeRequestDto {
     private Long parentId;
     private String name;
     private String description;
-    private CookbookRequestWithIdDto cookbook;
+    private Long cookbookId;
 }

@@ -8,9 +8,9 @@ import pet.cookbook.model.Recipe;
 public interface RecipeService {
     Recipe save(Recipe recipe);
 
-    Optional<Recipe> findById(Long id);
+    Recipe findById(Long id);
 
     void deleteById(Long id);
 
-    void findVersionsOfRecipe(PageRequest pageRequest, List<Recipe> recipes, Recipe recipe);
+    List<Recipe> findVersionsOfRecipe(PageRequest pageRequest, Long id);
 }

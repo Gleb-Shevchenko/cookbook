@@ -1,7 +1,6 @@
 package pet.cookbook.controller;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -36,17 +35,15 @@ public class CookbookController {
 
     @GetMapping("/{id}")
     public CookbookResponseDto findById(@PathVariable Long id) {
-        Cookbook cookbook = cookbookService.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Can't find cookbook by id: " + id));
+        Cookbook cookbook = cookbookService.findById(id);
         return cookbookResponseDtoMapper.mapToDto(cookbook);
     }
 
-    @PatchMapping("/{id}")
+    @PutMapping("/{id}")
     public CookbookResponseDto changeNameOfCookbook(@PathVariable Long id,
-                                                    @RequestParam String name) {
-        Cookbook cookbook = cookbookService.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Can't find cookbook by id: " + id));
-        cookbook.setName(name);
+                                                    @RequestBody CookbookRequestDto cookbookRequestDto) {
+        Cookbook cookbook = cookbookService.findById(id);
+        cookbook.setName(cookbookRequestDto.getName());
         cookbookService.save(cookbook);
         return cookbookResponseDtoMapper.mapToDto(cookbook);
     }
@@ -56,11 +53,11 @@ public class CookbookController {
         cookbookService.deleteById(id);
     }
 
-    @GetMapping("/allRecipes/{id}")
+    @GetMapping("/recipes/{id}")
     public List<RecipeResponseDto> findAllRecipes(@PathVariable Long id,
                                                   @RequestParam (defaultValue = "5") Integer count,
                                                   @RequestParam (defaultValue = "0") Integer page,
-                                                  @RequestParam (defaultValue = "id") String sortBy) {
+                                                  @RequestParam (defaultValue = "name") String sortBy) {
         Sort sort = Sort.by(sortBy);
         PageRequest pageRequest = PageRequest.of(count, page, sort);
         return cookbookService.findAllRecipes(pageRequest, id)

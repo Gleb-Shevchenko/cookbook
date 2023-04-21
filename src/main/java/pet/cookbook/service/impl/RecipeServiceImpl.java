@@ -1,5 +1,6 @@
 package pet.cookbook.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -21,8 +22,9 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public Optional<Recipe> findById(Long id) {
-        return recipeRepository.findById(id);
+    public Recipe findById(Long id) {
+        return recipeRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Can't find recipe by id: " + id));
     }
 
     @Override
@@ -31,13 +33,16 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public void findVersionsOfRecipe(PageRequest pageRequest, List<Recipe> recipes, Recipe recipe) {
+    public List<Recipe> findVersionsOfRecipe(PageRequest pageRequest, Long id) {
+        List<Recipe> recipes = new ArrayList<>();
+        Recipe recipe = recipeRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Can't find recipe by id: " + id));
         recipes.add(recipe);
-        Long parentId = recipe.getParentRecipeId();
-        if (parentId != null) {
-            Recipe parentRecipe = recipeRepository.findById(parentId)
-                    .orElseThrow(() -> new NoSuchElementException("Can't find recipe by id: " + parentId));
-            findVersionsOfRecipe(pageRequest, recipes, parentRecipe);
+        Recipe parentRecipe = recipe.getParentRecipe();
+        while (parentRecipe.getParentRecipe() != null) {
+            recipes.add(parentRecipe);
+            parentRecipe = parentRecipe.getParentRecipe();
         }
+        return recipes;
     }
 }

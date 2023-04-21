@@ -9,7 +9,7 @@ import pet.cookbook.model.Recipe;
 public interface CookbookService {
     Cookbook save(Cookbook cookbook);
 
-    Optional<Cookbook> findById(Long id);
+    Cookbook findById(Long id);
 
     void deleteById(Long id);
 

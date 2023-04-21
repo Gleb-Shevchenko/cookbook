@@ -27,7 +27,6 @@ public class CookbookMapper implements ResponseDtoMapper<CookbookResponseDto, Co
         CookbookResponseDto cookbookResponseDto = new CookbookResponseDto();
         cookbookResponseDto.setId(cookbook.getId());
         cookbookResponseDto.setName(cookbookResponseDto.getName());
-        cookbookResponseDto.setRecipes(cookbook.getRecipes());
         return cookbookResponseDto;
     }
 }
